@@ -22,12 +22,12 @@ def parse_ticket(data):
 
 def save_to_json(parsed_data):
 	with open("parsed_msisdn_data.json", "w") as file:
-		json.dump(parsed_data, file, indent=4)  # Save data in JSON format for readability
+		json.dump(parsed_data, file, indent = 4)  # Save data in JSON format for readability
 
 # Tkinter GUI Setup
 root = tk.Tk()
-text_box = tk.Text(root, height=15, width=50)
+text_box = tk.Text(root, height = 15, width = 50)
 text_box.pack()
-process_button = tk.Button(root, text="Process", command=parse_text)
+process_button = tk.Button(root, text = "Process", command = parse_text)
 process_button.pack()
 root.mainloop()

@@ -12,11 +12,13 @@ def parse_text():
 	
 	current_date = datetime.datetime.now().strftime("%Y%m%d")
 	
+	filename = f"VELSUR_{current_date}000000_000101.csv"
+	
 	# Open a CSV file to write the data
-	with open("output.csv", mode = "w", newline = "\n") as file:
+	with open(filename, mode = "w", newline = "\n") as file:
 		writer = csv.writer(file, quoting = csv.QUOTE_MINIMAL, escapechar='\\')
 		
-		counter = 1# Counter to create unique identifiers (e.g., "000001", "000002")
+		counter = 1 # Counter to create unique identifiers (e.g., "000001", "000002")
 		
 		# Iterate over each top-up amount and its MSISDNs
 		for top_up_amount, msisdns in parsed_data.items():
@@ -34,7 +36,7 @@ def parse_text():
 					msisdn,
 					f"0000000000000000000000000_00000_{unique_id}",
 					amount_value,
-					f"{current_date}000000",
+					f"{current_date}000101",
 					"Electronic Vouchers"
 				]
 				

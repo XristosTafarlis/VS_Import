@@ -15,11 +15,13 @@ def parse_ticket(data):
 			cleaned_line = line.strip() # Remove leading and trailing spaces
 			if cleaned_line and "None" not in cleaned_line: # If the line is not empty and does not contain "None"
 				msisdns.append(cleaned_line) # Add the cleaned line to the msisdns list
-
-		modified_msisdns = ["31" + msisdn[1:] for msisdn in msisdns] # Apply the transformation to each MSISDN
-		msisdn_dict[amount] = modified_msisdns
-
+		
+		msisdn_dict[amount] = msisdns
 	return msisdn_dict
+
+def transform_msisdn(msisdn):
+	# Apply the transformation to each MSISDN
+	return "31" + msisdn[1:]
 
 def main():
 	data = ui.window()

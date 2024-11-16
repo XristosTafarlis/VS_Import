@@ -20,8 +20,8 @@ def window():
 	text_box.pack(pady=10)
 
 	# Add a Submit button
-	submit_button = tkinter.Button(root, text="Submit", command=lambda: on_submit(text_box))
-	submit_button.pack(pady=5)
+	submit_button = tkinter.Button(root, text = "Submit", command = lambda: on_submit(text_box))
+	submit_button.pack(pady = 5)
 
 	root.mainloop()
 	return data

@@ -1,5 +1,6 @@
 import ui
 import file_writer
+import texts
 
 def parse_ticket(data):
 	# Split text into sections by "Top-up Simulation"
@@ -19,15 +20,11 @@ def parse_ticket(data):
 		msisdn_dict[amount] = msisdns
 	return msisdn_dict
 
-def transform_msisdn(msisdn):
-	# Apply the transformation to each MSISDN
-	return "31" + msisdn[1:]
-
 def main():
 	data = ui.window()
 	parsed_data = parse_ticket(data)
-	file_writer.save_to_json(parsed_data)
+#	file_writer.save_to_json(parsed_data) # Used to visualize the data
 	file_writer.write_to_csv(parsed_data)
-
+	texts.get_all_msisdns(parsed_data)
 if __name__ == "__main__":
 	main()

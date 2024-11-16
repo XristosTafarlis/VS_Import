@@ -15,7 +15,7 @@ def parse_ticket(data):
 			cleaned_line = line.strip() # Remove leading and trailing spaces
 			if cleaned_line and "None" not in cleaned_line: # If the line is not empty and does not contain "None"
 				msisdns.append(cleaned_line) # Add the cleaned line to the msisdns list
-		
+		# Creating the Dictionary
 		msisdn_dict[amount] = msisdns
 	return msisdn_dict
 

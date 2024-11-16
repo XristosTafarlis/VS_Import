@@ -21,7 +21,7 @@ def write_to_csv(parsed_data):
 		# Iterate over each top-up amount and its MSISDNs
 		for top_up_amount, msisdns in parsed_data.items():
 			for msisdn in msisdns:
-				amount_value = extract_amount(top_up_amount)
+				amount_value = extract_top_up_amount(top_up_amount)
 				modified_msisdn = transform_msisdn(msisdn)
 				
 				# Create the unique identifier for each MSISDN (formatted as six digits)
@@ -39,8 +39,11 @@ def write_to_csv(parsed_data):
 				
 				# Write the row to the CSV file
 				writer.writerow(row)
-
-def extract_amount(top_up_amount):
+				
+		# Write the total MSISDN count without a newline
+		file.write(str(counter - 1))
+		
+def extract_top_up_amount(top_up_amount):
 	# Use a regular expression to extract the numeric part of the top-up amount
 	amount_number = re.search(r"\d+", top_up_amount).group()  # Extract digits
 	return amount_number + "00" # Append "00" to get the desired format

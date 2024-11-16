@@ -1,15 +1,15 @@
 import tkinter
 
 def window():
-	data = ""
+	text_in = ""
 	# Main function to handle the Tkinter UI and process user input.
 	def on_submit(text_box):
-		nonlocal data  # Declare data as nonlocal to modify it within the nested function
+		nonlocal text_in  # Declare text_in as nonlocal to modify it within the nested function
 		# Callback function to process input text and close the UI.
-		data = text_box.get("1.0", tkinter.END).strip()
-		if data:
+		text_in = text_box.get("1.0", tkinter.END).strip()
+		if text_in:
 			root.destroy()
-			return data
+			return text_in
 
 	# Create the Tkinter window
 	root = tkinter.Tk()
@@ -24,4 +24,4 @@ def window():
 	submit_button.pack(pady = 5)
 
 	root.mainloop()
-	return data
+	return text_in

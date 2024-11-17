@@ -1,4 +1,5 @@
 import ui
+import DB
 import file_writer
 import texts
 
@@ -25,6 +26,7 @@ def main():
 	parsed_data = parse_ticket(data)
 #	file_writer.save_to_json(parsed_data) # Used to visualize the data
 	file_writer.write_to_csv(parsed_data)
-	texts.get_all_msisdns(parsed_data)
+	unique_msisdns = texts.get_all_msisdns(parsed_data)
+	DB.check_status_in_db(unique_msisdns)
 if __name__ == "__main__":
 	main()

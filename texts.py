@@ -13,3 +13,4 @@ def get_all_msisdns(parsed_data):
 	
 	# Copy to clipboard
 	pyperclip.copy(msisdns)
+	return msisdns

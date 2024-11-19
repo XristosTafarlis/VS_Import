@@ -1,6 +1,7 @@
 import info
 import oracledb
 from pathlib import Path
+import uuid, getpass, secrets, asyncio # Needed libraries for oracledb to work.
 
 home = str(Path.home())
 oracledb.init_oracle_client(home + "\\instantclient")

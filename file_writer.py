@@ -50,6 +50,7 @@ def write_to_csv(parsed_data, active_msisdns):
 		# Write the total MSISDN count without a newline
 		file.write(str(counter - 1))
 	write_to_txt(sorted(inactive_msisdns))
+	return filename
 
 def write_to_txt(inactive_msisdns):
 	# Write all the inactive MSISDNs to a .txt file.

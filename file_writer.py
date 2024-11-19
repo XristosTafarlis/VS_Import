@@ -1,12 +1,11 @@
 import re
 import csv
-import json
 import datetime
 
 def write_to_csv(parsed_data, active_msisdns):
 	current_date = datetime.datetime.now().strftime("%Y%m%d")
-	
 	filename = f"VELSUR_{current_date}000000_000101.csv"
+	inactive_msisdns = set() # Using a set to store inactive MSISDNs
 	
 	# Open a CSV file to write the data
 	with open(filename, mode = "w", newline = "\n") as file:
@@ -37,10 +36,17 @@ def write_to_csv(parsed_data, active_msisdns):
 					# Write the row to the CSV file
 					writer.writerow(row)
 				else:
-					print(msisdn + " not in Database")
+					inactive_msisdns.add(msisdn)
 		# Write the total MSISDN count without a newline
 		file.write(str(counter - 1))
-		
+	write_to_txt(inactive_msisdns) # Write all the inactive MSISDNs to a .txt file.
+
+def write_to_txt(inactive_msisdns):
+	if inactive_msisdns:
+		with open("inactive_msisdns.txt", mode="w") as txt_file:
+			for msisdn in sorted(inactive_msisdns): # Sorting for easier readability
+				txt_file.write(msisdn + "\n")
+
 def extract_top_up_amount(top_up_amount):
 	# Use a regular expression to extract the numeric part of the top-up amount
 	amount_number = re.search(r"\d+", top_up_amount).group()  # Extract digits

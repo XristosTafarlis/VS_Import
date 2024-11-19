@@ -8,14 +8,14 @@ oracledb.init_oracle_client(home + "\\instantclient")
 def check_status_in_db(msisdns):
 # Function to check MSISDN status
 	try:
-		# Use "with" to ensure the connection is closed after the block
+		# Using "with" to ensure the connection is closed after the block
 		with oracledb.connect(
 			user = info.user,
 			password = info.password,
 			host = info.host,
 			service_name = info.service
 		) as connection:
-			# Use "with" to ensure the cursor is closed after the block
+			# Using "with" to ensure the cursor is closed after the block
 			with connection.cursor() as cursor:
 				# Query to check the MSISDNs"
 				query = info.query1_p1 + msisdns + info.query1_p2

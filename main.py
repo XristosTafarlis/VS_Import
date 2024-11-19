@@ -24,11 +24,10 @@ def parse_ticket(data):
 def main():
 	data = ui.window()
 	parsed_data = parse_ticket(data)
-	# file_writer.save_to_json(parsed_data) # Used to visualize the data
-	file_writer.write_to_csv(parsed_data)
 	unique_msisdns = texts.get_all_msisdns(parsed_data)
 	active_msisdns = DB.check_status_in_db(unique_msisdns)
-	for msisdn, status in active_msisdns:
-		print(f"MSISDN: {msisdn}, Status: {status}")
+	# print(active_msisdns)
+	# file_writer.save_to_json(parsed_data) # Used to visualize the data
+	file_writer.write_to_csv(parsed_data, active_msisdns)
 if __name__ == "__main__":
 	main()

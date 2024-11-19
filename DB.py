@@ -21,7 +21,8 @@ def check_status_in_db(msisdns):
 				query = info.query1_p1 + msisdns + info.query1_p2
 				cursor.execute(query)
 				result = cursor.fetchall()
-				return result
+				active_msisdns = [row[0] for row in result] # Extract MSISDNs from tuples into a list
+				return active_msisdns
 		
 		# Even though using "with" for both connection and cursor closes them, I will close them also manualy just in case.
 		cursor.close()
@@ -29,7 +30,5 @@ def check_status_in_db(msisdns):
 
 	except oracledb.Error as e:
 		print(f"{info.error}: {e}")
-		
-		# Even though using "with" for both connection and cursor closes them, I will close them also manualy just in case.
 		exit(1) # Close the application.
 		return False

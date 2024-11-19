@@ -3,6 +3,15 @@ import csv
 import info
 import datetime
 
+def extract_top_up_amount(top_up_amount):
+	# Use a regular expression to extract the numeric part of the top-up amount
+	amount_number = re.search(r"\d+", top_up_amount).group()  # Extract digits
+	return amount_number + "00" # Append "00" to get the desired format
+
+def transform_msisdn(msisdn):
+	# Apply the transformation to each MSISDN
+	return "31" + msisdn[1:]
+
 def write_to_csv(parsed_data, active_msisdns):
 	current_date = datetime.datetime.now().strftime("%Y%m%d")
 	filename = f"VELSUR_{current_date}000000_000101.csv"
@@ -40,19 +49,11 @@ def write_to_csv(parsed_data, active_msisdns):
 					inactive_msisdns.add(msisdn)
 		# Write the total MSISDN count without a newline
 		file.write(str(counter - 1))
-	write_to_txt(sorted(inactive_msisdns)) # Write all the inactive MSISDNs to a .txt file.
+	write_to_txt(sorted(inactive_msisdns))
 
 def write_to_txt(inactive_msisdns):
+	# Write all the inactive MSISDNs to a .txt file.
 	if inactive_msisdns:
-		msisdns_query_string = ", \n".join(f"		'{msisdn[1:]}'" for msisdn in inactive_msisdns)
+		msisdns_query_string = ",\n".join(f"		'{msisdn[1:]}'" for msisdn in inactive_msisdns)
 		with open("inactive_msisdns.txt", mode = "w") as txt_file:
 			txt_file.write(info.query2 + msisdns_query_string + "\n	)")
-
-def extract_top_up_amount(top_up_amount):
-	# Use a regular expression to extract the numeric part of the top-up amount
-	amount_number = re.search(r"\d+", top_up_amount).group()  # Extract digits
-	return amount_number + "00" # Append "00" to get the desired format
-
-def transform_msisdn(msisdn):
-	# Apply the transformation to each MSISDN
-	return "31" + msisdn[1:]

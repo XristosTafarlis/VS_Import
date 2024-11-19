@@ -3,10 +3,6 @@ import csv
 import json
 import datetime
 
-def save_to_json(parsed_data):
-	with open("parsed_msisdn_data.json", "w") as file:
-		json.dump(parsed_data, file, indent = 4)  # Save data in JSON format for readability
-
 def write_to_csv(parsed_data, active_msisdns):
 	current_date = datetime.datetime.now().strftime("%Y%m%d")
 	

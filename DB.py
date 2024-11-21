@@ -33,3 +33,34 @@ def check_status_in_db(msisdns):
 		print(f"{info.error}: {e}")
 		exit(1) # Close the application.
 		return False
+
+def check_results_in_db(msisdns):
+	formatted_msisdns = ", ".join(f"'{msisdn}'" for msisdn in msisdns)
+	try:
+		# Using "with" to ensure the connection is closed after the block
+		with oracledb.connect(
+			user = info.user,
+			password = info.password,
+			host = info.host,
+			service_name = info.service
+		) as connection:
+			# Using "with" to ensure the cursor is closed after the block
+			with connection.cursor() as cursor:
+				# Query to check the MSISDNs"
+				query = info.query3_p1 + formatted_msisdns + info.query3_p2
+				cursor.execute(query)
+				
+				result = cursor.fetchall()
+				
+				if result:
+					print("DB accessed, data returned")
+					return result
+				
+		# Even though using "with" for both connection and cursor closes them, I will close them also manualy just in case.
+		cursor.close()
+		connection.close()
+
+	except oracledb.Error as e:
+		print(f"{info.error}: {e}")
+		exit(1) # Close the application.
+		return False

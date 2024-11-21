@@ -1,6 +1,3 @@
-import pyperclip
-import info
-
 def data_extract(text_input):
 	# Split text into sections by "Top-up Simulation"
 	sections = text_input.split("Top-up Simulation")
@@ -32,6 +29,3 @@ def get_all_msisdns(parsed_data):
 	
 	# Copy to clipboard
 	return msisdns
-
-def copy_to_clipboard():
-	pyperclip.copy(info.message)

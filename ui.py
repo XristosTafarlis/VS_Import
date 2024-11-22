@@ -2,6 +2,7 @@ import DB
 import sys
 import info
 import tkinter
+import winsound
 
 def text_window():
 	text_in = ""
@@ -15,10 +16,6 @@ def text_window():
 			return text_in
 		else:
 			print("No text detected")
-	
-	def on_close():
-		print("Window closed without input. Exiting...")
-		sys.exit() # Exit the script
 	
 	# Create the Tkinter window
 	root = tkinter.Tk()
@@ -76,42 +73,48 @@ def text_window():
 	root.mainloop()
 	return text_in
 
-def on_hover(event):
-	event.widget.configure(bg = "gray70")
-
-def on_default(event):
-	event.widget.configure(bg = "gray50")
-
 def query_window(msisdns):
+	place_holder_text = "No data retrived from the Database..." # The text displayed on the text_box before the script gets and displays the data from the DB.
+	
 	# Call the DB to get the final results
 	def call_db():
+		print("Checking DB")
 		data = DB.check_results_in_db(msisdns)
+		if data:
+			formatted_data = "h2. (i) *10 Euros*\n\n"
+			previous_value = None
+			for row in data:
+				if previous_value is not None and row[2] != previous_value:
+					formatted_data += f"\nh2. (i) *{row[2]}*\n\n"
+				# Format the row as a string with pipe separators and append a newline
+				formatted_data += "|" + "|".join(row[:2]) + "|\n"
+				previous_value = row[2]
+			
+			text_box.config(state = 'normal')
+			text_box.delete("1.0", tkinter.END)
+			text_box.insert(tkinter.END, formatted_data)
+			text_box.config(state = "disabled")
 		
-		formatted_data = "h2. (i) *10 Euros*\n\n"
-		previous_value = None
-		for row in data:
-			if previous_value is not None and row[2] != previous_value:
-				formatted_data += f"\nh2. (i) *{row[2]}*\n\n"
-			# Format the row as a string with pipe separators and append a newline
-			formatted_data += "|" + "|".join(row[:2]) + "|\n"
-			previous_value = row[2]
 		
-		text_box.config(state = 'normal')
-		text_box.delete("1.0", tkinter.END)
-		text_box.insert(tkinter.END, formatted_data)
-		text_box.config(state = "disabled")
+			root.lift()
+			root.attributes('-topmost', True)  # Temporarily make the window topmost
+			root.attributes('-topmost', False) # Allow it to behave normally again
+			winsound.MessageBeep(winsound.MB_ICONASTERISK)
+		
+		root.after(60000, call_db)
 	
-	def copy_to_clipboard(text_box):
+	def copy_to_clipboard_and_exit(text_box):
 		# Get all the text from the Text widget
 		text_to_copy = text_box.get("1.0", tkinter.END).strip()
 		
-		# Use the clipboard_clear() and clipboard_append() methods to copy the text
-		text_box.clipboard_clear()
-		text_box.clipboard_append(text_to_copy)
-	
-	def on_close():
-		print("Window closed. Exiting...")
-		sys.exit() # Exit the script
+		# Check if the text box is empty or contains the default message
+		if not text_to_copy or text_to_copy == place_holder_text:
+			print("No data to copy.")
+		else:
+			# Copy the text to the clipboard
+			text_box.clipboard_clear()
+			text_box.clipboard_append(text_to_copy)
+			root.after(1000, sys.exit) # 100ms delay before exiting to ensure the text is copied
 	
 	# Creating a new Tkinter window, similar to the 1st
 	root = tkinter.Tk()
@@ -147,31 +150,13 @@ def query_window(msisdns):
 		font = ("Courier New", 10))
 	
 	text_box.pack(pady = 5)
-	text_box.insert(tkinter.END, "No data retrived from the Database...")
+	text_box.insert(tkinter.END, place_holder_text)
 	text_box.config(state = "disabled")
-	
-	# Add a Check DB button
-	check_database_button = tkinter.Button(
-		root,
-		text = "Check Database",
-		width = 20,
-		bd = 0,
-		bg = "gray50",
-		font = ("Courier New", 14),
-		relief= "solid",
-		activebackground = "gray30",
-		activeforeground = "gray80",
-		command = lambda: call_db())
-	
-	check_database_button.bind('<Enter>', on_hover)
-	check_database_button.bind('<Leave>', on_default)
-	
-	check_database_button.pack(padx = 30, pady = 5, side = tkinter.LEFT)
 	
 	# Add a Copy button
 	copy_button = tkinter.Button(
 		root,
-		text = "Copy",
+		text = "Copy & Exit",
 		width = 20,
 		bd = 0,
 		bg = "gray50",
@@ -179,12 +164,23 @@ def query_window(msisdns):
 		relief= "solid",
 		activebackground = "gray30",
 		activeforeground = "gray80",
-		command = lambda: copy_to_clipboard(text_box)
+		command = lambda: copy_to_clipboard_and_exit(text_box)
 		)
 	
 	copy_button.bind('<Enter>', on_hover)
 	copy_button.bind('<Leave>', on_default)
 	
-	copy_button.pack(padx = 30, pady = 5, side = tkinter.RIGHT)
+	copy_button.pack(padx = 30, pady = 5)
 	
+	call_db() # Start the first DB query immediately
 	root.mainloop()
+
+def on_hover(event):
+	event.widget.configure(bg = "gray70")
+
+def on_default(event):
+	event.widget.configure(bg = "gray50")
+
+def on_close():
+		print("Exiting...")
+		sys.exit() # Exit the script

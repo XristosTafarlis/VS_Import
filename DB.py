@@ -24,11 +24,7 @@ def check_status_in_db(msisdns):
 				result = cursor.fetchall()
 				active_msisdns = [row[0] for row in result] # Extract MSISDNs from tuples into a list
 				return active_msisdns
-		
-		# Even though using "with" for both connection and cursor closes them, I will close them also manualy just in case.
-		cursor.close()
-		connection.close()
-
+	
 	except oracledb.Error as e:
 		print(f"{info.error}: {e}")
 		exit(1) # Close the application.
@@ -55,11 +51,7 @@ def check_results_in_db(msisdns):
 				if result:
 					print("DB accessed, data returned")
 					return result
-				
-		# Even though using "with" for both connection and cursor closes them, I will close them also manualy just in case.
-		cursor.close()
-		connection.close()
-
+	
 	except oracledb.Error as e:
 		print(f"{info.error}: {e}")
 		exit(1) # Close the application.

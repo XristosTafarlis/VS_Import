@@ -109,6 +109,7 @@ def query_window(msisdns):
 		
 		# Check if the text box is empty or contains the default message
 		if not text_to_copy or text_to_copy == place_holder_text:
+			winsound.MessageBeep(winsound.MB_ICONASTERISK)
 			print("No data to copy.")
 		else:
 			# Copy the text to the clipboard

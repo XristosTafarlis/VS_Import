@@ -1,5 +1,6 @@
 import info
 import oracledb
+import winsound
 from pathlib import Path
 import uuid, getpass, secrets, asyncio # Needed libraries for oracledb to work.
 
@@ -26,6 +27,7 @@ def check_status_in_db(msisdns):
 				return active_msisdns
 	
 	except oracledb.Error as e:
+		winsound.MessageBeep(winsound.MB_ICONASTERISK)
 		print(f"{info.error}: {e}")
 		exit(1) # Close the application.
 		return False
@@ -53,6 +55,7 @@ def check_results_in_db(msisdns):
 					return result
 	
 	except oracledb.Error as e:
+		winsound.MessageBeep(winsound.MB_ICONASTERISK)
 		print(f"{info.error}: {e}")
 		exit(1) # Close the application.
 		return False

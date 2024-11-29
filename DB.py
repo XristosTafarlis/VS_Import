@@ -8,7 +8,7 @@ home = str(Path.home())
 oracledb.init_oracle_client(home + "\\instantclient")
 
 def check_status_in_db(msisdns):
-# Function to check MSISDN status
+	# Function to check MSISDN status
 	try:
 		# Using "with" to ensure the connection is closed after the block
 		with oracledb.connect(
@@ -33,6 +33,7 @@ def check_status_in_db(msisdns):
 		return False
 
 def check_results_in_db(msisdns):
+	# Function to get back the results of the procedure
 	formatted_msisdns = ", ".join(f"'{msisdn}'" for msisdn in msisdns)
 	try:
 		# Using "with" to ensure the connection is closed after the block

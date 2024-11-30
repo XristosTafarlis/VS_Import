@@ -95,9 +95,8 @@ def query_window(msisdns):
 			text_box.insert(tkinter.END, formatted_data)
 			text_box.config(state = "disabled")
 		
-		
 			root.lift()
-			root.attributes('-topmost', True)  # Temporarily make the window topmost
+			root.attributes('-topmost', True) # Temporarily make the window topmost
 			root.attributes('-topmost', False) # Allow it to behave normally again
 			winsound.MessageBeep(winsound.MB_ICONASTERISK)
 		

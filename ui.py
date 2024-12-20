@@ -96,9 +96,9 @@ def query_window(msisdns):
 			text_box.config(state = "disabled")
 		
 			root.lift()
+			winsound.MessageBeep(winsound.MB_ICONASTERISK)
 			root.attributes('-topmost', True) # Temporarily make the window topmost
 			root.attributes('-topmost', False) # Allow it to behave normally again
-			winsound.MessageBeep(winsound.MB_ICONASTERISK)
 		
 		root.after(60000, call_db)
 	

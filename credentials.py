@@ -11,7 +11,7 @@ def get_credentials_from_registry():
 			password = winreg.QueryValueEx(key, "password")[0]
 			return user, password
 	except FileNotFoundError:
-		return None, None  # No stored credentials
+		return None, None # No stored credentials
 
 def store_credentials_to_registry(user, password):
 	with winreg.CreateKey(winreg.HKEY_CURRENT_USER, REGISTRY_PATH) as key:
@@ -20,11 +20,11 @@ def store_credentials_to_registry(user, password):
 
 def prompt_for_credentials():
 	root = tkinter.Tk()
-	root.withdraw()  # Hide the root window
-	user = askstring("Database Login", "Enter your username:")
+	root.withdraw() # Hide the root window
+	user = askstring("", "Enter your Oracle username:")
 	if not user:
 		raise ValueError("Username is required.")
-	password = askstring("Database Login", "Enter your password:")
+	password = askstring("", "Enter your Oracle password:")
 	if not password:
 		raise ValueError("Password is required.")
 	return user, password

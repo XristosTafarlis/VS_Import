@@ -27,5 +27,4 @@ def get_all_msisdns(parsed_data):
 	# Join MSISDNs with commas to form the SQL IN clause
 	msisdns = ",\n".join(sorted(unique_msisdns))
 	
-	# Copy to clipboard
 	return msisdns

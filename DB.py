@@ -46,11 +46,12 @@ def check_status_in_db(msisdns):
 def check_results_in_db(msisdns):
 	# Function to get back the results of the procedure
 	formatted_msisdns = ", ".join(f"'{msisdn}'" for msisdn in msisdns)
+	db_user, db_password = credentials.initialize_credentials()
 	try:
 		# Using "with" to ensure the connection is closed after the block
 		with oracledb.connect(
-			user = info.user,
-			password = info.password,
+			user = db_user,
+			password = db_password,
 			host = info.host,
 			service_name = info.service
 		) as connection:

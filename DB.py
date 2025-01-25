@@ -8,10 +8,10 @@ import uuid, getpass, secrets, asyncio # Needed libraries for oracledb to work.
 
 home = str(Path.home())
 oracledb.init_oracle_client(home + "\\instantclient")
+db_user, db_password = credentials.initialize_credentials()
 
 def check_status_in_db(msisdns):
 	# Function to check MSISDN status
-	db_user, db_password = credentials.initialize_credentials()
 	try:
 		# Using "with" to ensure the connection is closed after the block
 		with oracledb.connect(

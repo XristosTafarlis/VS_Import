@@ -3,6 +3,7 @@ info.py
 message.py
 icon/
 Icon/
+Information/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
